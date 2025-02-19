@@ -1,24 +1,20 @@
 const std = @import("std");
+const lib = @import("lib.zig");
 
 pub fn main() !void {
-    // Prints to stderr (it's a shortcut based on `std.io.getStdErr()`)
-    std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
 
-    // stdout is for the actual output of your application, for example if you
-    // are implementing gzip, then only the compressed bytes should be sent to
-    // stdout, not any debugging messages.
-    const stdout_file = std.io.getStdOut().writer();
-    var bw = std.io.bufferedWriter(stdout_file);
-    const stdout = bw.writer();
+    const input = try lib.readFile(allocator, "inputs/01-input.txt");
+    defer allocator.free(input);
 
-    try stdout.print("Run `zig build test` to run the tests.\n", .{});
+    const puzzle = @import("day01.zig");
+    const p1 = try puzzle.partOne(allocator, input);
+    const p2 = try puzzle.partTwo(allocator, input);
 
-    try bw.flush(); // don't forget to flush!
-}
-
-test "simple test" {
-    var list = std.ArrayList(i32).init(std.testing.allocator);
-    defer list.deinit(); // try commenting this out and see if zig detects the memory leak!
-    try list.append(42);
-    try std.testing.expectEqual(@as(i32, 42), list.pop());
+    std.debug.print("Day {d}: {s}\n", .{ 1, "Historian Hysteria" });
+    std.debug.print("Part One: {}\n", .{p1});
+    std.debug.print("Part Two: {}\n", .{p2});
+    std.debug.print("\n", .{});
 }
