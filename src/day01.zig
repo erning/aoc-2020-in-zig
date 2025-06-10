@@ -1,8 +1,10 @@
+//! src/day01.zig
 const std = @import("std");
-const lib = @import("./lib.zig");
+const aoc = @import("aoc.zig");
+const Solution = aoc.Solution;
 
-fn parse_input(allocator: std.mem.Allocator, input: []const u8) ![]i32 {
-    const lines = try lib.splitLines(allocator, input);
+fn parseInput(allocator: std.mem.Allocator, input: []const u8) ![]i32 {
+    const lines = try aoc.splitLines(allocator, input);
     defer allocator.free(lines);
 
     const numbers = try allocator.alloc(i32, lines.len);
@@ -13,8 +15,8 @@ fn parse_input(allocator: std.mem.Allocator, input: []const u8) ![]i32 {
     return numbers;
 }
 
-pub fn partOne(allocator: std.mem.Allocator, input: []const u8) !i32 {
-    const numbers = try parse_input(allocator, input);
+fn part1(allocator: std.mem.Allocator, input: []const u8) !i32 {
+    const numbers = try parseInput(allocator, input);
     defer allocator.free(numbers);
 
     for (numbers[0 .. numbers.len - 1], 0..) |a, i| {
@@ -26,8 +28,8 @@ pub fn partOne(allocator: std.mem.Allocator, input: []const u8) !i32 {
     @panic("No solution found.");
 }
 
-pub fn partTwo(allocator: std.mem.Allocator, input: []const u8) !i32 {
-    const numbers = try parse_input(allocator, input);
+fn part2(allocator: std.mem.Allocator, input: []const u8) !i32 {
+    const numbers = try parseInput(allocator, input);
     defer allocator.free(numbers);
 
     for (numbers[0 .. numbers.len - 2], 0..) |a, i| {
@@ -39,4 +41,25 @@ pub fn partTwo(allocator: std.mem.Allocator, input: []const u8) !i32 {
     }
 
     @panic("No solution found.");
+}
+
+pub fn partOne(allocator: std.mem.Allocator, input: []const u8) anyerror!Solution {
+    return Solution{ .i32 = try part1(allocator, input) };
+}
+
+pub fn partTwo(allocator: std.mem.Allocator, input: []const u8) anyerror!Solution {
+    return Solution{ .i32 = try part2(allocator, input) };
+}
+
+// Unit test
+test "day 01 simple test" {
+    const allocator = std.testing.allocator;
+    const input = try aoc.readAsString(allocator, "./inputs/01-example.txt");
+    defer allocator.free(input);
+
+    const p1_result = try part1(allocator, input);
+    try std.testing.expectEqual(514579, p1_result);
+
+    const p2_result = try part2(allocator, input);
+    try std.testing.expectEqual(241861950, p2_result);
 }
