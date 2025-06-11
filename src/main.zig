@@ -1,6 +1,6 @@
 //! src/main.zig
 const std = @import("std");
-const aoc = @import("aoc.zig");
+const aoc = @import("aoc");
 
 // Define a type for the solver functions.
 // It's a function pointer that takes an allocator and a string slice (input)
@@ -8,16 +8,12 @@ const aoc = @import("aoc.zig");
 const SolverFn = *const fn (allocator: std.mem.Allocator, input: []const u8) anyerror!aoc.Solution;
 
 // A struct to hold the puzzle details.
-const Puzzle = struct {
-    title: []const u8,
-    part1: SolverFn,
-    part2: SolverFn,
-};
+const Puzzle = struct { title: []const u8, part1: SolverFn, part2: SolverFn };
 
 // An array of titles for each puzzle.
 const puzzle_titles = [_][]const u8{
     "Historian Hysteria",
-    // "Password Philosophy",
+    "Password Philosophy",
     // "Toboggan Trajectory",
     // "Passport Processing",
     // "Binary Boarding",
@@ -45,7 +41,7 @@ const puzzles = blk: {
     // to break the circular dependency that would otherwise occur.
     const DayModules = struct {
         const day01 = @import("day01.zig");
-        // const day02 = @import("day02.zig");
+        const day02 = @import("day02.zig");
         // const day03 = @import("day03.zig");
         // const day04 = @import("day04.zig");
         // const day05 = @import("day05.zig");

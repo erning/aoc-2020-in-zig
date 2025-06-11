@@ -1,4 +1,3 @@
-//! src/aoc.zig
 const std = @import("std");
 
 /// A tagged union to represent the result of a puzzle part.
@@ -26,7 +25,6 @@ pub const Solution = union(enum) {
 };
 
 // A helper function to read the puzzle input file into a string.
-// pub fn readAsString(allocator: std.mem.Allocator, day: u8, filename: []const u8) ![]u8 {
 pub fn readAsString(allocator: std.mem.Allocator, filename: []const u8) ![]u8 {
     const file = try std.fs.cwd().openFile(filename, .{});
     defer file.close();
@@ -46,6 +44,7 @@ pub fn readAsString(allocator: std.mem.Allocator, filename: []const u8) ![]u8 {
 pub fn splitLines(allocator: std.mem.Allocator, text: []const u8) ![][]const u8 {
     var lines = std.ArrayList([]const u8).init(allocator);
     errdefer lines.deinit();
+
     const trimmed = std.mem.trim(u8, text, " \r\n\t");
     var line_iterator = std.mem.splitScalar(u8, trimmed, '\n');
     while (line_iterator.next()) |line| {
