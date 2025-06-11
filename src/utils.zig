@@ -1,29 +1,5 @@
 const std = @import("std");
 
-/// A tagged union to represent the result of a puzzle part.
-/// It can hold various types that a puzzle might return (e.g., numbers, strings).
-/// It also includes a custom `format` function to allow direct printing with `std.debug.print`.
-pub const Solution = union(enum) {
-    i32: i32,
-    string: []const u8,
-
-    pub fn format(
-        self: Solution,
-        comptime fmt_str: []const u8,
-        options: std.fmt.FormatOptions,
-        writer: anytype,
-    ) !void {
-        // These are unused in this simple formatter but are required by the function signature.
-        _ = fmt_str;
-        _ = options;
-
-        switch (self) {
-            .i32 => |value| try writer.print("{d}", .{value}),
-            .string => |value| try writer.print("{s}", .{value}),
-        }
-    }
-};
-
 // A helper function to read the puzzle input file into a string.
 pub fn readAsString(allocator: std.mem.Allocator, filename: []const u8) ![]u8 {
     const file = try std.fs.cwd().openFile(filename, .{});
@@ -57,4 +33,21 @@ pub fn splitLines(allocator: std.mem.Allocator, text: []const u8) ![][]const u8 
     }
 
     return lines.toOwnedSlice();
+}
+
+/// Generic map function that transforms an array of type T to an array of type U
+/// using the provided transformation function.
+pub fn map(
+    comptime T: type,
+    comptime U: type,
+    allocator: std.mem.Allocator,
+    items: []const T,
+    transform: fn (T) U,
+) ![]U {
+    var result = try allocator.alloc(U, items.len);
+    errdefer allocator.free(result);
+    for (items, 0..) |item, i| {
+        result[i] = transform(item);
+    }
+    return result;
 }

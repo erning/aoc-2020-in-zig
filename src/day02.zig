@@ -1,6 +1,6 @@
-//! src/day02.zig
 const std = @import("std");
-const aoc = @import("aoc");
+const aoc = @import("./aoc.zig");
+const utils = @import("./utils.zig");
 
 pub fn partOne(_: std.mem.Allocator, _: []const u8) anyerror!aoc.Solution {
     return aoc.Solution{ .string = "day02_part1_stub" };

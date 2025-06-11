@@ -4,31 +4,16 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const lib_mod = b.createModule(.{
-        .root_source_file = b.path("src/root.zig"),
-        .target = target,
-        .optimize = optimize,
-    });
-
     const exe_mod = b.createModule(.{
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
-    exe_mod.addImport("aoc", lib_mod);
-
-    const lib = b.addLibrary(.{
-        .linkage = .static,
-        .name = "aoc2020",
-        .root_module = lib_mod,
-    });
-
     const exe = b.addExecutable(.{
         .name = "aoc2020",
         .root_module = exe_mod,
     });
 
-    b.installArtifact(lib);
     b.installArtifact(exe);
 
     //
