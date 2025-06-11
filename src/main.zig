@@ -57,9 +57,12 @@ pub fn main() !void {
         }
 
         const puzzle = puzzles[day - 1];
-        const filename = try std.fmt.allocPrint(allocator, "inputs/{d:0>2}-{s}.txt", .{ day, "input" });
-        defer allocator.free(filename);
-        const input = utils.readAsString(allocator, filename) catch |err| {
+
+        const input = utils.readAsString(
+            allocator,
+            @intCast(day),
+            if (use_example) "example" else "input",
+        ) catch |err| {
             std.log.err("Failed to read input for day {}: {s}", .{ day, @errorName(err) });
             continue;
         };
@@ -69,26 +72,26 @@ pub fn main() !void {
         var timer = if (show_time) try std.time.Timer.start() else null;
 
         // part 1
-        const part1_result = puzzle.part1(allocator, input) catch |err| {
+        const p1 = puzzle.part1(allocator, input) catch |err| {
             std.log.err("Part one for day {} failed: {s}", .{ day, @errorName(err) });
             continue;
         };
         const t1 = if (timer) |*t| t.read() else 0;
-        std.debug.print("Part One: {}\n", .{part1_result});
+        std.debug.print("Part One: {}\n", .{p1});
 
         // part 2
-        const part2_result = puzzle.part2(allocator, input) catch |err| {
+        const p2 = puzzle.part2(allocator, input) catch |err| {
             std.log.err("Part two for day {} failed: {s}", .{ day, @errorName(err) });
             continue;
         };
         const t2 = if (timer) |*t| t.read() else 0;
-        std.debug.print("Part Two: {}\n", .{part2_result});
+        std.debug.print("Part Two: {}\n", .{p2});
 
         //
         if (timer) |_| {
             const d1_ms = @as(f64, @floatFromInt(t1)) / std.time.ns_per_ms;
             const d2_ms = @as(f64, @floatFromInt(t2 - t1)) / std.time.ns_per_ms;
-            std.debug.print("Duration: (Part 1: {d:.3}ms, Part 2: {d:.3}ms)\n", .{ d1_ms, d2_ms });
+            std.debug.print("Duration: ({d:.3}ms, {d:.3}ms)\n", .{ d1_ms, d2_ms });
         }
         std.debug.print("\n", .{});
     }

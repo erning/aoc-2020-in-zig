@@ -23,7 +23,6 @@ fn part1(allocator: std.mem.Allocator, input: []const u8) !i32 {
             if (a + b == 2020) return a * b;
         }
     }
-
     @panic("No solution found.");
 }
 
@@ -38,7 +37,6 @@ fn part2(allocator: std.mem.Allocator, input: []const u8) !i32 {
             }
         }
     }
-
     @panic("No solution found.");
 }
 
@@ -53,14 +51,14 @@ pub fn partTwo(allocator: std.mem.Allocator, input: []const u8) anyerror!aoc.Sol
 }
 
 // Unit test
-test "day 01 simple test" {
+test "day 01 example" {
     const allocator = std.testing.allocator;
-    const input = try utils.readAsString(allocator, "./inputs/01-example.txt");
+    const input = try utils.readExample(allocator, 1);
     defer allocator.free(input);
 
-    const p1_result = try part1(allocator, input);
-    try std.testing.expectEqual(514579, p1_result);
+    const p1 = try part1(allocator, input);
+    try std.testing.expectEqual(514579, p1);
 
-    const p2_result = try part2(allocator, input);
-    try std.testing.expectEqual(241861950, p2_result);
+    const p2 = try part2(allocator, input);
+    try std.testing.expectEqual(241861950, p2);
 }

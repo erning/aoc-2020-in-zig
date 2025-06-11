@@ -1,8 +1,12 @@
 const std = @import("std");
 
 // A helper function to read the puzzle input file into a string.
-pub fn readAsString(allocator: std.mem.Allocator, filename: []const u8) ![]u8 {
-    const file = try std.fs.cwd().openFile(filename, .{});
+pub fn readAsString(allocator: std.mem.Allocator, day: u8, filename: []const u8) ![]u8 {
+    const path = try std.fmt.allocPrint(allocator, "inputs/{d:0>2}-{s}.txt", .{ day, filename });
+    std.debug.print("{s}\n", .{path});
+    defer allocator.free(path);
+
+    const file = try std.fs.cwd().openFile(path, .{});
     defer file.close();
 
     const stats = try file.stat();
@@ -12,6 +16,14 @@ pub fn readAsString(allocator: std.mem.Allocator, filename: []const u8) ![]u8 {
     _ = try file.reader().readAll(buffer);
 
     return buffer;
+}
+
+pub fn readInput(allocator: std.mem.Allocator, day: u8) ![]u8 {
+    return readAsString(allocator, day, "input");
+}
+
+pub fn readExample(allocator: std.mem.Allocator, day: u8) ![]u8 {
+    return readAsString(allocator, day, "example");
 }
 
 /// Splits a string into lines and returns an array of slices.
