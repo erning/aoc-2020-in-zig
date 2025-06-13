@@ -5,6 +5,7 @@ const utils = @import("./utils.zig");
 const day01 = @import("./day01.zig");
 const day02 = @import("./day02.zig");
 const day03 = @import("./day03.zig");
+const day04 = @import("./day04.zig");
 
 const SolverFn = *const fn (allocator: std.mem.Allocator, input: []const u8) anyerror!aoc.Solution;
 
@@ -13,6 +14,7 @@ const puzzles = [_]Puzzle{
     .{ .part1 = &day01.partOne, .part2 = &day01.partTwo, .title = "Historian Hysteria" },
     .{ .part1 = &day02.partOne, .part2 = &day02.partTwo, .title = "Password Philosophy" },
     .{ .part1 = &day03.partOne, .part2 = &day03.partTwo, .title = "Toboggan Trajectory" },
+    .{ .part1 = &day04.partOne, .part2 = &day04.partTwo, .title = "Passport Processing" },
 };
 
 pub fn main() !void {
