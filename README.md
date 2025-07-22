@@ -22,4 +22,9 @@ Part Two: 121
 --- Day 5: Binary Boarding ---
 Part One: 801
 Part Two: 597
+
+--- Day 6: Custom Customs ---
+Part One: 6799
+Part Two: 3354
+
 ```
