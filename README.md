@@ -27,4 +27,7 @@ Part Two: 597
 Part One: 6799
 Part Two: 3354
 
+--- Day 7: Handy Haversacks ---
+Part One: 119
+Part Two: 155802
 ```
