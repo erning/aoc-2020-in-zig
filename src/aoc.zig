@@ -5,6 +5,7 @@ const std = @import("std");
 /// It also includes a custom `format` function to allow direct printing with `std.debug.print`.
 pub const Solution = union(enum) {
     i32: i32,
+    u16: u16,
     usize: usize,
     string: []const u8,
 
@@ -19,6 +20,7 @@ pub const Solution = union(enum) {
         _ = options;
 
         switch (self) {
+            .u16 => |value| try writer.print("{d}", .{value}),
             .i32 => |value| try writer.print("{d}", .{value}),
             .usize => |value| try writer.print("{d}", .{value}),
             .string => |value| try writer.print("{s}", .{value}),

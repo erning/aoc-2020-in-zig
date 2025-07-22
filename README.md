@@ -1,7 +1,7 @@
 # aoc-2020-in-zig
 
 ```text
-$ cargo run --release -- --time# README
+$ zig build --release=fast run -- --time
 
 --- Day 1: Historian Hysteria ---
 Part One: 877971
@@ -18,4 +18,8 @@ Part Two: 3517401300
 --- Day 4: Passport Processing ---
 Part One: 190
 Part Two: 121
+
+--- Day 5: Binary Boarding ---
+Part One: 801
+Part Two: 597
 ```
